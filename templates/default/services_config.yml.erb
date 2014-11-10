@@ -1,7 +1,7 @@
 <%= @rails_env %>:
-<% @services.each do |s| %>
+<% node['services_config'].each do |s| %>
   <%= s %>:
-  <% @services[s].each do |k, v| %>
+  <% node['services_config'][s].each do |k, v| %>
     <%= k %>: <%= v %>
   <% end %>
 <% end %>

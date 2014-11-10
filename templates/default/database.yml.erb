@@ -1,9 +1,9 @@
 <%= @rails_env %>:
-  adapter  : <%= @database['adapter'] || "mysql2" %>
-  host     : <%= @database['host'] %>
-  database : <%= @database['database'] %>
-  username : <%= @database['username'] %>
-  password : <%= @database['password'] %>
-  encoding : <%= @database.has_key?('encoding') ? @database['encoding'] : 'utf8' %>
-  encoding : <%= @database.has_key?('pool') ? @database['pool'] : 16 %>
+  adapter  : <%= node['database']['adapter'] || "mysql2" %>
+  host     : <%= node['database']['host'] %>
+  database : <%= node['database']['database'] %>
+  username : <%= node['database']['username'] %>
+  password : <%= node['database']['password'] %>
+  encoding : <%= node['database'].has_key?('encoding') ? node['database']['encoding'] : 'utf8' %>
+  encoding : <%= node['database'].has_key?('pool') ? node['database']['pool'] : 16 %>
   reconnect: true
