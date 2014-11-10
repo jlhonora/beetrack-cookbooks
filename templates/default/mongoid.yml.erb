@@ -1,0 +1,12 @@
+<%= @rails_env %>:
+  sessions:
+    default:
+      database: <%= @mongo['database'] %>
+      hosts:
+        - <%= "#{@mongo['host']:@mongo['port']}" %>
+      options:
+        read: primary
+        max_retries   : <%= @mongo.has_key?('max_retries') ? @mongo['retries'] : 5 %>
+        retry_interval: <%= @mongo.has_key?('retry_interval') ? @mongo['retries'] : 0 %>
+        pool_size     : <%= @mongo.has_key?('pool_size') ? @mongo['retries'] : 64 %>
+
