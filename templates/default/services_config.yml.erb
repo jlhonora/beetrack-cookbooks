@@ -1,17 +1,7 @@
 <%= @rails_env %>:
-  nexmo:
-    key: <%= @services['nexmo']['key'] %>
-    secret: <%= @services['nexmo']['secret'] %>
-  twilio:
-    account_sid: <%= @services['twilio']['account_sid'] %>
-    auth_token: <%= @services['twilio']['auth_token'] %>
-    default_from: <%= @services['twilio']['default_from'] %>
-  s3:
-    key: <%= @services['s3']['key'] %>
-    secret: <%= @services['s3']['secret'] %>
-    bucket: <%= @services['s3']['bucket'] %>
-  server: <%= @services['server'] %>
-  pubnub:
-    publish_key: <%= @services['pubnub']['publish_key'] %>
-    subscribe_key: <%= @services['pubnub']['subscribe_key'] %>
-
+<% @services.each do |s| %>
+  <%= s %>:
+  <% @services[s].each do |k, v| %>
+    <%= k %>: <%= v %>
+  <% end %>
+<% end %>
