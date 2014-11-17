@@ -3,18 +3,6 @@
 
 include_recipe "deploy"
 
-# Required packages
-package "vim"
-package "ntp"
-package "git-core"
-package "imagemagick"
-package "mysql-common"
-package "libcurl4-openssl-dev"
-package "libmagickwand-dev"
-package "libmysqlclient-dev "
-package "libv8-dev"
-package "libxml2-dev"
-
 # Inflate templates
 beetrack_templates = ["database", "mongoid", "services_config"]
 
@@ -42,6 +30,8 @@ node[:deploy].each do |application, deploy|
       group deploy[:group]
       owner deploy[:user]
       mode   "0664"
+
+      notifies :run, "execute[restart Rails app #{application}]"
     end
   end
 end
