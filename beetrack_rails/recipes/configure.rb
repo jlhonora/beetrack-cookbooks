@@ -24,13 +24,17 @@ node[:deploy].each do |application, deploy|
 
   beetrack_templates.each do |t|
     puts "Inflating template #{t}.yml.erb"
-    template "#{deploy[:deploy_to]}/current/config/#{t}.yml" do
+    template "#{deploy[:deploy_to]}/shared/config/#{t}.yml" do
       source "#{t}.yml.erb"
       cookbook "beetrack_rails"
       group 'root'
       owner 'root'
       mode   "0755"
       notifies :run, "execute[restart Rails app #{application}]"
+    end
+    link "#{deploy[:deploy_to]}/shared/config/#{t}.yml" do
+      to "#{deploy[:deploy_to]}/current/config/#{t}.yml"
+      action :create
     end
   end
 end
