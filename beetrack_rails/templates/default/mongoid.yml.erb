@@ -1,4 +1,4 @@
-<%= @rails_env %>:
+<%= node['rails_env'] %>:
   sessions:
     default:
       database: <%= node['mongoid']['database'] %>

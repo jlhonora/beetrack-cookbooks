@@ -1,4 +1,4 @@
-<%= @rails_env %>:
+<%= node['rails_env'] %>:
   adapter  : <%= node['database']['adapter'] || "mysql2" %>
   host     : <%= node['database']['host'] %>
   database : <%= node['database']['database'] %>
