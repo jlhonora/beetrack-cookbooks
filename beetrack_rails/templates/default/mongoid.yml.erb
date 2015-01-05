@@ -3,7 +3,7 @@
     default:
       database: <%= node['mongoid']['database'] %>
       hosts:
-        - <%= "#{node['mongoid']['host']:node['mongoid']['port']}" %>
+        - <%= "#{node['mongoid']['host']}:#{node['mongoid']['port']}" %>
       options:
         read: primary
         max_retries   : <%= node['mongoid'].has_key?('max_retries') ? node['mongoid']['retries'] : 5 %>
