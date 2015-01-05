@@ -26,11 +26,10 @@ node[:deploy].each do |application, deploy|
     puts "Inflating template #{t}.yml.erb"
     template "#{deploy[:deploy_to]}/shared/config/#{t}.yml" do
       source "#{t}.yml.erb"
-      cookbook "rails"
-      group deploy[:group]
-      owner deploy[:user]
-      mode   "0664"
-
+      cookbook "beetrack_rails"
+      group 'root'
+      owner 'root'
+      mode   "0755"
       notifies :run, "execute[restart Rails app #{application}]"
     end
   end
