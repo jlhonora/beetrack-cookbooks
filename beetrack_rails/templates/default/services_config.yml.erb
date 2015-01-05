@@ -1,7 +1,11 @@
 <%= node['rails_env'] %>:
 <% node['services_config'].keys.each do |s| %>
   <%= s %>:
+  <% if node['services_config'][s].is_a?(String) %>
+ <%=  s %>: <%= node['services_config'][s] %>
+  <% else %>
   <% node['services_config'][s].each do |k, v| %>
     <%= k %>: <%= v %>
   <% end %>
+<% end %>
 <% end %>
