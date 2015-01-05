@@ -32,9 +32,5 @@ node[:deploy].each do |application, deploy|
       mode   "0755"
       notifies :run, "execute[restart Rails app #{application}]"
     end
-    link "#{deploy[:deploy_to]}/shared/config/#{t}.yml" do
-      to "#{deploy[:deploy_to]}/current/config/#{t}.yml"
-      action :create
-    end
   end
 end
