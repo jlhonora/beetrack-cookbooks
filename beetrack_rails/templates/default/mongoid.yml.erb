@@ -3,7 +3,7 @@
     default:
       database: <%= node['mongoid']['sessions']['default']['database'] %>
       hosts:
-        - <%= "#{node['mongoid']['sessions']['default']['host'][0]}" %>
+        - <%= "#{node['mongoid']['sessions']['default']['hosts'][0]}" %>
       options:
         read: primary
         max_retries   : <%= node['mongoid']['sessions']['default']['options'].has_key?('max_retries') ? node['mongoid']['sessions']['default']['options']['max_retries'] : 5 %>
