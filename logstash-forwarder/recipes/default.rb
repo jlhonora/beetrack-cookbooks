@@ -17,6 +17,8 @@ template node['logstash-forwarder']['config_file'] do
     forwarder_port: node['logstash-forwarder']['port'],
     ssl_cert_name: node['logstash-forwarder']['ssl_cert_name'],
     render_template: node['logstash-forwarder']['template'],
-    render_cookbook: node['logstash-forwarder']['cookbook']
+    render_cookbook: node['logstash-forwarder']['cookbook'],
+    render_files: node['logstash-forwarder']['files']
+    
   )
 end
