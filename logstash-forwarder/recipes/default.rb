@@ -8,7 +8,7 @@ template node['logstash-forwarder']['config_file'] do
   source 'forwarder.conf.erb'
   owner 'root'
   group 'root'
-  notifies :restart, 'service[logstash-forwarder]'
+  #notifies :restart, 'service[logstash-forwarder]'
   variables(
     collector_ip: node['logstash-forwarder']['collector_ip'],
     forwarder_port: node['logstash-forwarder']['port'],
