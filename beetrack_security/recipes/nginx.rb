@@ -1,3 +1,4 @@
+rails_env = node['rails_env']
 Chef::Log.info("creating zone in nginx in #{rails_env}")
 file = Chef::Util::FileEdit.new("/etc/nginx/nginx.conf")
 file.insert_line_after_match("/keepalive_timeout  65/", "limit_req_zone $binary_remote_addr zone=one:10m rate=200r/m;")
