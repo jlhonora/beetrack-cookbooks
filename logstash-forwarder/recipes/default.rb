@@ -4,6 +4,7 @@ execute "echo 'deb http://packages.elasticsearch.org/logstashforwarder/debian st
 execute 'sudo apt-get update'
 apt_package "logstash-forwarder" do
   action :install
+  options "--force-yes"
 end
 
 template node['logstash-forwarder']['config_file'] do
