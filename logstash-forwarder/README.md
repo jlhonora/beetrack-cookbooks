@@ -1,67 +1,36 @@
-# lumberjack [![Build Status](https://secure.travis-ci.org/hectcastro/chef-lumberjack.png?branch=master)](http://travis-ci.org/hectcastro/chef-lumberjack)
+# logstash-forwarder
 
-## Description
+Chef cookbook for installing and configuring the Logstash Forwarder
 
-Installs and configures [Lumberjack](https://github.com/jordansissel/lumberjack).
+# Attributes
 
-## Requirements
+The following attributes will need to be defined:
+* ``` node['logstash-forwarder']['cdn_url'] ``` - Where this package going to be pulled from
+* ``` node['logstash-forwarder']['collector_ip'] ``` - What is the IP the forwarder will send to (aka Logstash)
+* ``` node['logstash-forwarder']['port'] ``` - What is the Port that the forwarder will communicate to the reciever on
+* ``` node['logstash-forwarder']['ssl_cert_name'] ``` - What is the name of the SSL cert that is going to be used
+* ``` node['logstash-forwarder']['template'] ``` - What is the name of the template that will be included
+* ``` node['logstash-forwarder']['cookbook'] ``` - What is the name of the cookbook that the rendered template resides
 
-### Platforms
+Additional optional attributes may be overwritten:
+* ``` node['logstash-forwarder']['service_name'] ``` - The name of the Logstash Forwarder service.  Default: '`logstash-forwarder`'
+* ``` node['logstash-forwarder']['version'] ``` - What version of the logstash-forwarder to install.  Default: `'0.3.1'`
+* ``` node['logstash-forwarder']['file_prefix'] ``` - The prefix of the .deb file that should be installed.  Default: `'logstash-forwarder'`
+* ``` node['logstash-forwarder']['config_file'] ``` - The configuration file that the Logstash Forwarder will be looking for.  Default: `'/etc/logstash-forwarder'`
 
-* Ubuntu 12.04 (Precise)
+# Rendered Template
 
-### Cookbooks
+The template which is to be rendered inside the /etc/logstash-forwarder.conf file might look something like this:
 
-* logrotate
-* logstash
-
-## Attributes
-
-* `node["lumberjack"]["version"]` - Version of Lumberjack to install.
-* `node["lumberjack"]["user"]` - User for Lumberjack.
-* `node["lumberjack"]["group"]` - Group for Lumberjack.
-* `node["lumberjack"]["dir"]` - Directory to install into.
-* `node["lumberjack"]["log_dir"]` - Log directory.
-* `node["lumberjack"]["host"]` - Host for Lumberjack to connect to.
-* `node["lumberjack"]["port"]` - Port for Lumberjack to connect to.
-* `node["lumberjack"]["ssl_key"]` - SSL key for Lumberjack communication.
-* `node["lumberjack"]["ssl_certificate"]` - SSL certificate for Lumberjack
-  communication.
-* `node["lumberjack"]["files_to_watch"]` - Array of files to watch.
-* `node["lumberjack"]["logstash_role"]` – Role assigned to Logstash server for search.
-* `node["lumberjack"]["logstash_fqdn"]` – FQDN to Logstash server if you're trying to
-  target one that isn't searchable.
-
-## Recipes
-
-* `recipe[lumberjack]` will install Lumberjack.
-* `recipe[lumberjack::certificates]` will configure a Lumberjack key and
-  certificate.
-
-## Usage
-
-In order to automatically discover Logstash, setup your roles like the
-following:
-
-```ruby
-default_attributes(
-  "lumberjack" => {
-    "logstash_fqdn" => "http://logstash.example.com"
-  }
-)
 ```
-
-Or in a Chef Server environment:
-
-```ruby
-default_attributes()
-  "lumberjack" => {
-    "logstash_role" => "logstash_server"
-  }
-)
+"files": [
+          {
+            "paths": [ "/var/log/auth.log" ],
+            "fields": { "type": "auth" }
+          },
+          {
+            "paths": [ "/var/log/ufw.log" ],
+            "fields": { "type": "syslog" }
+          }
+        ]
 ```
-
-If you use the `lumberjack::certificates` recipe, `node["lumberjack"]["ssl_certificate_contents"]`
-will be populated with the contents of the Lumberjack certificate to
-secure client/server communication.  The default recipe uses this attribute to
-create a client-side certificate.

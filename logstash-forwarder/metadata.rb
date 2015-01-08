@@ -1,19 +1,11 @@
-maintainer        "Phil Dougherty"
-maintainer_email  "phil@brandingbrand.com"
-license           "Apache 2.0"
-description       "Installs and configures Logstash-Forwarder."
-version           "0.0.2"
-recipe            "logstash-forwarder", "Installs and configures Lumberjack"
-name              "logstash-forwarder"
+# encoding: UTF-8
 
-%w{ logrotate }.each do |d|
-  depends d
-end
+maintainer 'Rackspace'
+maintainer_email 'reach.ops@lists.rackspace.com'
+name 'logstash-forwarder'
+license 'Apache 2.0'
+description 'Cookbook configuring Logstash Forwarder service'
+long_description 'Cookbook configuring Logstash Forwarder service'
+version '0.0.1'
 
-%w{ logstash }.each do |s|
-  suggests s
-end
-
-%w{ ubuntu debian rhel centos scientific amazon fedora}.each do |os|
-    supports os
-end
+supports 'ubuntu'
