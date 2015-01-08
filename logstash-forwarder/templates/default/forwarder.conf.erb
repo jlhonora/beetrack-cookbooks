@@ -3,6 +3,7 @@
         "servers": [ "<%= @collector_ip %>:<%= @forwarder_port %>" ],
         "ssl ca": "/etc/ssl/certs/<%= @ssl_cert_name %>.crt",
         "timeout": 15
-    },
-    <%= render @render_template, cookbook: @render_cookbook, local: false %>
+        },
+    "files" : 
+    <%= @render_files.to_s  %>
 }
