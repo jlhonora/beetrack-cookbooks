@@ -2,7 +2,9 @@
 
 execute "echo 'deb http://packages.elasticsearch.org/logstashforwarder/debian stable main' | sudo tee /etc/apt/sources.list.d/logstashforwarder.list"
 execute 'sudo apt-get update'
-execute 'sudo apt-get install logstash-forwarder'
+apt_package "logstash-forwarder" do
+  action :install
+end
 
 template node['logstash-forwarder']['config_file'] do
   source 'forwarder.conf.erb'
