@@ -1,3 +1,3 @@
 service "logstash-forwarder" do
-  action :start
+  action :restart
 end
