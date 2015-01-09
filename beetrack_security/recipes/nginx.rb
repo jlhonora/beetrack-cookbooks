@@ -8,6 +8,7 @@ ruby_block "configure nginx.conf" do
     file.write_file
   end
 end
+
 ruby_block "configure beetrack nginx" do
   block do 
     Chef::Log.info("creating config nginx beetrack in #{rails_env}")
