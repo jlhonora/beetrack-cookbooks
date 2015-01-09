@@ -17,10 +17,10 @@ ruby_block "configure beetrack nginx" do
     file2.search_file_delete_line(/client_body_buffer_size 128k/)
     file2.search_file_delete_line(/limit_req   zone=one  burst=5 nodelay/)
     file2.search_file_delete_line(/proxy_set_header X-Real-IP $remote_addr;/)
-    file2.insert_line_after_match(/location @unicorn/, "    proxy_set_header X-Real-IP $remote_addr;")
-    file2.insert_line_after_match(/location @unicorn/, "    client_max_body_size 10m;")
-    file2.insert_line_after_match(/location @unicorn/, "    client_body_buffer_size 128k;")
-    file2.insert_line_after_match(/location @unicorn/, "    limit_req   zone=one  burst=5 nodelay;")
+    file2.insert_line_after_match(/proxy_redirect/, "    proxy_set_header X-Real-IP $remote_addr;")
+    file2.insert_line_after_match(/proxy_redirect/, "    client_max_body_size 10m;")
+    file2.insert_line_after_match(/proxy_redirect/, "    client_body_buffer_size 128k;")
+    file2.insert_line_after_match(/proxy_redirect/, "    limit_req   zone=one  burst=5 nodelay;")
     file2.write_file
   end
 end
