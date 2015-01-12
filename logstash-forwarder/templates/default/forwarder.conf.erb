@@ -6,8 +6,7 @@
         },
         "files" :  [ <% @render_files.each do |file|  %>
                       { "paths" : [ <%=  file['paths'][0] %>  ],
-                     "fields": { "type":  <%= file['fields']['type'] %>
-                   }
+                      "fields": { "type":  <%= file['fields']['type'] %> }
                    }]
                      
                      <% end %>

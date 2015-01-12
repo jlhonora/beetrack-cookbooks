@@ -10,6 +10,5 @@ template '/etc/nginx/sites-available/beetrack' do
   owner 'root'
   group 'root'
   mode 0644
-  notifies :restart, 'service[nginx]'
 end
 
