@@ -5,8 +5,8 @@
         "timeout": 15
         },
         "files" :  [ <% @render_files.each do |file|  %>
-                      { "paths" : [ <%=  file['paths'][0] %>  ],
-                      "fields": { "type":  <%= file['fields']['type'] %> }
+                      { "paths" : [ "<%=  file['paths'][0] %>"  ],
+                      "fields": { "type":  "<%= file['fields']['type'] %>" }
                    }]
                      
                      <% end %>
