@@ -40,6 +40,14 @@ template '/etc/fail2ban/fail2ban.conf' do
   notifies :restart, 'service[fail2ban]'
 end
 
+
+template '/etc/fail2ban/filter.d/nginx-req-limit.conf' do
+  source 'nginx-req-limit.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
 template '/etc/fail2ban/jail.local' do
   source 'jail.conf.erb'
   owner 'root'
