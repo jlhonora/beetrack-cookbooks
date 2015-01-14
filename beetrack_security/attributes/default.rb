@@ -58,15 +58,6 @@ default['fail2ban']['services'] = {
         'filter' => 'sshd',
         'logpath' => '/var/log/auth.log',
         'maxretry' => '6'
-     },
-  'nginx-req-limit' => {
-        'enabled' => 'true',
-        'filter' => 'nginx-req-limit',
-        'action' => 'iptables-multiport[name=ReqLimit, port="http,https", protocol=tcp]',
-        'logpath' => '/var/log/nginx/*error.log',
-        'findtime' => '600',
-        'bantime' => '1800',
-        'maxretry' => '10'
      }
 
 }
