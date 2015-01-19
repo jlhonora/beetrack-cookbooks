@@ -14,12 +14,4 @@ node[:deploy].each do |application, deploy|
     cwd           release_path
     environment   'RAILS_ENV' => rails_env
   end
-
-  template "#{deploy[:current_path]}/log/logstash_production.log" do
-      source "logstash_production.log.erb"
-      cookbook "beetrack_rails"
-      group 'root'
-      owner 'root'
-      mode   "0666"
-  end
 end
