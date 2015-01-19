@@ -24,13 +24,6 @@ node[:deploy].each do |application, deploy|
       mode   "0666"
   end
 
-  execute "restart Rails app #{application}" do
-    cwd deploy[:current_path]
-    command node[:opsworks][:rails_stack][:restart_command]
-    action :nothing
-  end
-
-
   beetrack_templates.each do |t|
     puts "Inflating template #{t}.yml.erb"
     template "#{deploy[:deploy_to]}/shared/config/#{t}.yml" do
@@ -39,7 +32,12 @@ node[:deploy].each do |application, deploy|
       group 'root'
       owner 'root'
       mode   "0755"
-      notifies :run, "execute[restart Rails app #{application}]"
     end
+  end
+  
+  execute "restart Rails app #{application}" do
+    cwd deploy[:current_path]
+    command node[:opsworks][:rails_stack][:restart_command]
+    action :nothing
   end
 end
