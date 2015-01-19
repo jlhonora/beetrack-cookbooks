@@ -1,7 +1,6 @@
 # Default recipe
 # JLH, Nov 2014
 
-include_recipe "deploy"
 
 # Inflate templates
 beetrack_templates = ["database", "mongoid", "services_config"]
