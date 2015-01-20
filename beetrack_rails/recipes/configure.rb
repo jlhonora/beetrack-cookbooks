@@ -19,8 +19,8 @@ node[:deploy].each do |application, deploy|
       source "logstash_production.log.erb"
       cookbook "beetrack_rails"
       group 'root'
-      owner 'root'
-      mode   "0766"
+      owner 'deploy'
+      mode   "0666"
   end
 
   execute "restart Rails app #{application}" do
