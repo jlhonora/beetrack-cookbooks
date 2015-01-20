@@ -15,12 +15,18 @@ node[:deploy].each do |application, deploy|
   
   deploy = node[:deploy][application]
 
+  execute "restart Rails app #{application}" do
+    cwd deploy[:current_path]
+    command node[:opsworks][:rails_stack][:restart_command]
+    action :nothing
+  end
+
   template "#{deploy[:deploy_to]}/shared/log/logstash_production.log" do
       source "logstash_production.log.erb"
       cookbook "beetrack_rails"
       group 'root'
       owner 'root'
-      mode   "0666"
+      mode   "0755"
   end
 
   beetrack_templates.each do |t|
@@ -31,6 +37,7 @@ node[:deploy].each do |application, deploy|
       group 'root'
       owner 'root'
       mode   "0755"
+      notifies :run, "execute[restart Rails app #{application}]"
     end
   end
   
