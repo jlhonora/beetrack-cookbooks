@@ -15,19 +15,20 @@ node[:deploy].each do |application, deploy|
   
   deploy = node[:deploy][application]
 
+  template "#{deploy[:deploy_to]}/shared/log/logstash_production.log" do
+      source "logstash_production.log.erb"
+      cookbook "beetrack_rails"
+      group 'root'
+      owner 'root'
+      mode   "0766"
+  end
+
   execute "restart Rails app #{application}" do
     cwd deploy[:current_path]
     command node[:opsworks][:rails_stack][:restart_command]
     action :nothing
   end
 
-  template "#{deploy[:deploy_to]}/shared/log/logstash_production.log" do
-      source "logstash_production.log.erb"
-      cookbook "beetrack_rails"
-      group 'root'
-      owner 'root'
-      mode   "0755"
-  end
 
   beetrack_templates.each do |t|
     puts "Inflating template #{t}.yml.erb"
