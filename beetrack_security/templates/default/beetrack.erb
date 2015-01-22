@@ -3,6 +3,13 @@ upstream unicorn_app.beetruck.cl {
 }
 
 server {
+  listen         80;
+  server_name    app.beetrack.com;
+  return         301 https://$server_name$request_uri;
+}
+
+
+server {
   listen 443;
   server_name app.beetruck.cl app.beetrack.com beetrack rails-app2;
 
