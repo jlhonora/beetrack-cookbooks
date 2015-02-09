@@ -1,6 +1,5 @@
 # encoding: UTF-8
 
-execute "echo 'deb http://packages.elasticsearch.org/logstashforwarder/debian stable main' | sudo tee /etc/apt/sources.list.d/logstashforwarder.list"
 execute 'sudo apt-get update'
 apt_package "logstash-forwarder" do
   action :install
