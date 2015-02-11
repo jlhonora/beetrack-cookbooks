@@ -1,4 +1,5 @@
 ## cookbooks/aws/recipes/default.rb
-package "aws-cli" do
-  action :install
+execute "aws-cli" do
+  command "sudo apt-get -y install awscli"
+  action :run
 end
