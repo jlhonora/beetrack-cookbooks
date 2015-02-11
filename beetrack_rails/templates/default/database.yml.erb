@@ -1,9 +1,12 @@
-<%= @rails_env %>:
+<%= node['rails_env'] %>:
   adapter  : <%= node['database']['adapter'] || "mysql2" %>
   host     : <%= node['database']['host'] %>
   database : <%= node['database']['database'] %>
   username : <%= node['database']['username'] %>
   password : <%= node['database']['password'] %>
   encoding : <%= node['database'].has_key?('encoding') ? node['database']['encoding'] : 'utf8' %>
-  encoding : <%= node['database'].has_key?('pool') ? node['database']['pool'] : 16 %>
   reconnect: true
+  pool: 32
+  connect_timeout: 10
+  read_timeout: 15
+  write_timeout: 15

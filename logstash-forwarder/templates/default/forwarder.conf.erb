@@ -1,0 +1,14 @@
+{
+    "network": {
+        "servers": [ "<%= @collector_ip %>:<%= @forwarder_port %>" ],
+        "ssl ca": "/etc/ssl/certs/<%= @ssl_cert_name %>.crt",
+        "timeout": 15
+        },
+        "files" :  [ <% @render_files.each do |file|  %>
+                      { "paths" : [ "<%=  file['paths'][0] %>"  ],
+                      "fields": { "type":  "<%= file['fields']['type'] %>" }
+                   }]
+                     
+                     <% end %>
+                    
+}

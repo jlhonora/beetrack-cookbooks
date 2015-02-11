@@ -1,12 +1,12 @@
-<%= @rails_env %>:
+<%= node['rails_env'] %>:
   sessions:
     default:
-      database: <%= node['mongoid']['database'] %>
+      database: <%= node['mongoid']['sessions']['default']['database'] %>
       hosts:
-        - <%= "#{node['mongoid']['host']:node['mongoid']['port']}" %>
+        - <%= "#{node['mongoid']['sessions']['default']['hosts'][0]}" %>
       options:
         read: primary
-        max_retries   : <%= node['mongoid'].has_key?('max_retries') ? node['mongoid']['retries'] : 5 %>
-        retry_interval: <%= node['mongoid'].has_key?('retry_interval') ? node['mongoid']['retries'] : 0 %>
-        pool_size     : <%= node['mongoid'].has_key?('pool_size') ? node['mongoid']['retries'] : 64 %>
+        max_retries   : <%= node['mongoid']['sessions']['default']['options'].has_key?('max_retries') ? node['mongoid']['sessions']['default']['options']['max_retries'] : 5 %>
+        retry_interval: <%= node['mongoid']['sessions']['default']['options'].has_key?('retry_interval') ? node['mongoid']['sessions']['default']['options']['retry_interval'] : 0 %>
+        pool_size     : <%= node['mongoid']['sessions']['default']['options'].has_key?('pool_size') ? node['mongoid']['sessions']['default']['options']['pool_size'] : 64 %>
 
