@@ -1,18 +1,6 @@
 include_recipe "opsworks-elb"
 
-execute "aws-key" do
-  command "export AWS_ACCESS_KEY_ID=#{node['aws']['AWS_ACCESS_KEY_ID']}"
-  user "deploy" 
-  action :run
-end
-
-execute "aws-pwd" do
-  command "export AWS_SECRET_ACCESS_KEY=#{node['aws']['AWS_SECRET_ACCESS_KEY']}"
-  user "deploy"
-  action :run
-end
-
 execute "register" do
-  command "aws elb register-instances-with-load-balancer --load-balancer-name #{node[:aws][:elb][:load_balancer_name]} --instances #{node[:opsworks][:instance][:aws_instance_id]} --region #{node[:opsworks][:instance][:region]}"
+  command "/usr/bin/env AWS_ACCESS_KEY_ID=#{node['aws']['AWS_ACCESS_KEY_ID']} AWS_SECRET_ACCESS_KEY=#{node['aws']['AWS_SECRET_ACCESS_KEY']} aws elb register-instances-with-load-balancer --load-balancer-name #{node[:aws][:elb][:load_balancer_name]} --instances #{node[:opsworks][:instance][:aws_instance_id]} --region #{node[:opsworks][:instance][:region]}"
   user "deploy"
 end
