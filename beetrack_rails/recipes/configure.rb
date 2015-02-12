@@ -29,6 +29,12 @@ node[:deploy].each do |application, deploy|
     action :nothing
   end
 
+  execute "sudo chmod -R 666 #{deploy[:deploy_to]}/shared/log" do
+  end
+
+  execute "sudo chmod 666 #{deploy[:deploy_to]}/shared" do
+  end
+
 
   beetrack_templates.each do |t|
     puts "Inflating template #{t}.yml.erb"
