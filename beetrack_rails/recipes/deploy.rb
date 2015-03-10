@@ -33,7 +33,7 @@ node[:deploy].each do |application, deploy|
     cookbook "nginx"
   end
   
-  service "unicorn_#{application}" do
+  execute "unicorn_#{application}" do
     command "#{deploy[:deploy_to]}/shared/scripts/unicorn start"
     action :run
   end
