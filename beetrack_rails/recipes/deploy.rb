@@ -27,10 +27,15 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-  application do
+  nginx_web_app application do
     Chef::Log.debug("Calling nginx_web_app with #{deploy}")
     application deploy
     cookbook "nginx"
+  end
+  
+  service "unicorn_#{application}" do
+    command "#{deploy[:deploy_to]}/shared/scripts/unicorn start"
+    action :run
   end
 
   application do
