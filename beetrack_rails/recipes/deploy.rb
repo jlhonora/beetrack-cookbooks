@@ -38,7 +38,7 @@ node[:deploy].each do |application, deploy|
     action :run
   end
 
-  application do
+  unicorn_web_app do
     application application
     deploy deploy
   end
