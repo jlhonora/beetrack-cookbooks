@@ -27,21 +27,14 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-  ###
-  # Wrapping the following two commands in this deploy[:domains].present? block is necessary so that
-  # deploying other applications no-ops well
-  ###
+  nginx_web_app application do
+    Chef::Log.debug("Calling nginx_web_app with #{deploy}")
+    application deploy
+    cookbook "nginx"
+  end
 
-  if deploy[:domains].present?
-    nginx_web_app application do
-      Chef::Log.debug("Calling nginx_web_app with #{deploy}")
-      application deploy
-      cookbook "nginx"
-    end
-
-    unicorn_web_app do
-      application application
-      deploy deploy
-    end
+  unicorn_web_app do
+    application application
+    deploy deploy
   end
 end
