@@ -4,7 +4,7 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info("shutdown sidekiq #{rails_env}")
   execute "rake sidekiq:start" do
     user 'root'
-    command       "bundle exec rake sidekiq:start RAILS_ENV=#{rails_env}"
+    command       "RAILS_ENV=#{rails_env} bundle exec sidekiq -d"
     cwd           release_path
   end
 end
