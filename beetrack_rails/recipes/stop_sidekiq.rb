@@ -3,8 +3,8 @@ node[:deploy].each do |application, deploy|
   release_path = "/srv/www/beetrack/current/"
   Chef::Log.info("shutdown sidekiq #{rails_env}")
   execute "rake sidekiq:stop" do
-    command       "bundle exec rake sidekiq:stop"
+    user 'root'
+    command       "RAILS_ENV=#{rails_env} bundle exec rake sidekiq:stop"
     cwd           release_path
-    environment   'RAILS_ENV' => rails_env
   end
 end
