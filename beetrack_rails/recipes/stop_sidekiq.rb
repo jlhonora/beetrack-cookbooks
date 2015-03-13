@@ -4,7 +4,7 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info("shutdown sidekiq #{rails_env}")
   execute "rake sidekiq:stop" do
     user 'root'
-    command       "RAILS_ENV=#{rails_env} bundle exec rake sidekiq:stop"
+    command       "RAILS_ENV=#{rails_env} sidekiqctl stop `cat /srv/www/beetrack/shared/pids/sidekiq.pid`"
     cwd           release_path
   end
 end
