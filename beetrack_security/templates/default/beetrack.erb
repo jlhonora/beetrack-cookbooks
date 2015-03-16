@@ -1,5 +1,5 @@
 upstream unicorn_app.beetruck.cl {
-server unix:<%= deploy[:deploy_to] %>/shared/sockets/unicorn.sock fail_timeout=0;
+server unix:<%= @deploy[:deploy_to] %>/shared/sockets/unicorn.sock fail_timeout=0;
 }
 
 
@@ -11,7 +11,7 @@ server {
 
   keepalive_timeout 5;
 
-  root <%= deploy[:deploy_to] %>/current/public/;
+  root <%= @deploy[:deploy_to] %>/current/public/;
 
   location / {
     try_files $uri/index.html $uri/index.htm @unicorn;
@@ -47,6 +47,6 @@ server {
 
     error_page 500 502 503 504 /500.html;
     location = /500.html {
-    root <%= deploy[:deploy_to] %>/current/public/;
+    root <%= @deploy[:deploy_to] %>/current/public/;
     }
     }
