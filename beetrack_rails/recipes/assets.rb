@@ -1,6 +1,6 @@
 node[:deploy].each do |application, deploy|
   rails_env = deploy[:rails_env]
-  release_path = "/srv/www/beetrack/current/"
+  release_path = "#{deploy[:deploy_to]}/current/"
   Chef::Log.info("Precompiling Rails assets with environment #{rails_env}")
 
   execute "rake i18n:js:export" do

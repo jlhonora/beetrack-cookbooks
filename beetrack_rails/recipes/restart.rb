@@ -1,6 +1,6 @@
 node[:deploy].each do |application, deploy|
   rails_env = deploy[:rails_env]
-  release_path = "/srv/www/beetrack/current/"
+  release_path = "#{deploy[:deploy_to]}/current/"
   execute "unicorn_#{application} restart" do
     user 'deploy'
     group 'deploy'
