@@ -29,10 +29,15 @@ node[:deploy].each do |application, deploy|
     action :nothing
   end
 
-  execute "sudo chmod -R 666 #{deploy[:deploy_to]}/shared/log" do
+  execute "sudo chmod -R 776 #{deploy[:deploy_to]}/shared/log" do
   end
 
-  execute "sudo chmod 666 #{deploy[:deploy_to]}/shared" do
+  execute "sudo chmod 776 #{deploy[:deploy_to]}/shared" do
+  end
+
+  execute "sudo chown -R deploy #{deploy[:deploy_to]}/current" do
+  end
+  execute "sudo chown -R deploy #{deploy[:deploy_to]}/shared" do
   end
 
 
