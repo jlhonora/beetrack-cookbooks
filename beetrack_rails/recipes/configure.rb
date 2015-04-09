@@ -35,8 +35,6 @@ node[:deploy].each do |application, deploy|
   execute "sudo chmod 776 #{deploy[:deploy_to]}/shared" do
   end
 
-  execute "sudo chown -R deploy #{deploy[:deploy_to]}/current" do
-  end
   execute "sudo chown -R deploy #{deploy[:deploy_to]}/shared" do
   end
 
