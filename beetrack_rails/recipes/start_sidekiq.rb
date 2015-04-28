@@ -12,7 +12,7 @@ node[:deploy].each do |application, deploy|
   else
     execute "rake sidekiq:stop" do
       cwd           release_path
-      user 'root'
+      user 'deploy'
       command "RAILS_ENV=#{rails_env} bundle exec sidekiqctl stop #{deploy[:deploy_to]}/shared/pids/sidekiq.pid"
       returns [0,1]
     end
