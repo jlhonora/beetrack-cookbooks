@@ -5,14 +5,14 @@ node[:deploy].each do |application, deploy|
   SIDEKIQ_PID = File.expand_path("#{deploy[:deploy_to]}/shared/pids/sidekiq.pid", __FILE__)
   if !( File.exists?(SIDEKIQ_PID) && system("ps x | grep `cat #{SIDEKIQ_PID}` 2>&1 > /dev/null") rescue false)
     execute "rake sidekiq:start" do
-      user 'deploy'
+      user 'root'
       command       "RAILS_ENV=#{rails_env} bundle exec sidekiq -d"
       cwd           release_path
     end
   else
     execute "rake sidekiq:stop" do
       cwd           release_path
-      user 'deploy'
+      user 'root'
       command "RAILS_ENV=#{rails_env} bundle exec sidekiqctl stop #{deploy[:deploy_to]}/shared/pids/sidekiq.pid"
       returns [0,1]
     end
