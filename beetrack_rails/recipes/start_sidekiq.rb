@@ -15,6 +15,8 @@ node[:deploy].each do |application, deploy|
   end
   execute "sudo chmod -R 776 #{release_path}" do
   end
-  execute "sudo chown deploy -R  #{release_path}" do
+  execute "sudo chown deploy #{release_path} -R" do
+  end
+  execute "sudo chown deploy #{deploy[:deploy_to]}/shared/log -R " do
   end
 end
