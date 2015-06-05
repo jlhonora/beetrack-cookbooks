@@ -30,6 +30,14 @@ node[:deploy].each do |application, deploy|
       mode   "0666"
   end
 
+  template "/tmp/.ruby-uuid" do
+      source "logstash_production.log.erb"
+      cookbook "beetrack_rails"
+      group 'root'
+      owner "#{deploy[:user]}"
+      mode   "0666"
+  end
+
   execute "restart Rails app #{application}" do
     cwd deploy[:current_path]
     command node[:opsworks][:rails_stack][:restart_command]
