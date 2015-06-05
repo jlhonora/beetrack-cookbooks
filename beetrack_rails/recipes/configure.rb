@@ -22,7 +22,7 @@ node[:deploy].each do |application, deploy|
       mode   "0666"
   end
   #creating file for bug of /root/.ruby-uuid not created
-  template "/home/#{deploy[:user]}/.ruby-uuid" do
+  template "/tmp/ruby-uuid" do
       source "logstash_production.log.erb"
       cookbook "beetrack_rails"
       group 'root'
