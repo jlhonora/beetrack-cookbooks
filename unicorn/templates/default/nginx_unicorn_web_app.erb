@@ -5,6 +5,9 @@ upstream unicorn_<%= @application[:domains].first %> {
 server {
   listen 80;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
+  server_tokens off;
+  add_header X-Frame-Options SAMEORIGIN;
+  add_header X-Content-Type-Options nosniff;
 
   <% if @application[:log_format] %>
     <% @application[:log_format].each do |log_format_name| %>
