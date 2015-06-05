@@ -12,14 +12,13 @@ node[:deploy].each do |application, deploy|
       node[:deploy][application],
       "#{node[:deploy][application][:deploy_to]}/current",
       :force => node[:force_database_adapter_detection])
-  
   deploy = node[:deploy][application]
 
   template "#{deploy[:deploy_to]}/shared/log/logstash_production.log" do
       source "logstash_production.log.erb"
       cookbook "beetrack_rails"
       group 'root'
-      owner 'deploy'
+      owner "#{deploy[:user]}"
       mode   "0666"
   end
 
@@ -35,7 +34,7 @@ node[:deploy].each do |application, deploy|
   execute "sudo chmod 776 #{deploy[:deploy_to]}/shared" do
   end
 
-  execute "sudo chown -R deploy #{deploy[:deploy_to]}/shared" do
+  execute "sudo chown -R #{deploy[:user]} #{deploy[:deploy_to]}/shared" do
   end
 
 
@@ -50,5 +49,4 @@ node[:deploy].each do |application, deploy|
       notifies :run, "execute[restart Rails app #{application}]"
     end
   end
-  
 end
