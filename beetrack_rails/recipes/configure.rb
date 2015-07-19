@@ -6,21 +6,33 @@
 beetrack_templates = ["database", "mongoid", "services_config"]
 
 node[:deploy].each do |application, deploy|
-  node.default[:deploy][application][:database][:adapter] = 
+  node.default[:deploy][application][:database][:adapter] =
     OpsWorks::RailsConfiguration.determine_database_adapter(
-      application, 
+      application,
       node[:deploy][application],
       "#{node[:deploy][application][:deploy_to]}/current",
       :force => node[:force_database_adapter_detection])
-  
+
   deploy = node[:deploy][application]
 
-  template "#{deploy[:deploy_to]}/shared/log/logstash_production.log" do
-      source "logstash_production.log.erb"
-      cookbook "beetrack_rails"
-      group 'root'
-      owner 'deploy'
-      mode   "0666"
+  # TODO: Specify node-wide user/group settings
+  group = 'root'
+  owner = 'deploy'
+
+  log_dir = "#{deploy[:deploy_to]}/shared/log"
+
+  directory log_dir do
+    owner node[:user][:username]
+    group node[:user][:username]
+    recursive true
+  end
+
+  template "##{log_dir}/logstash_production.log" do
+      source   'logstash_production.log.erb'
+      cookbook 'beetrack_rails'
+      group    'root'
+      owner    'deploy'
+      mode     '0666'
   end
 
   execute "restart Rails app #{application}" do
