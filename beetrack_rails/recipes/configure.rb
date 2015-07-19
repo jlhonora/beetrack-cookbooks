@@ -22,16 +22,16 @@ node[:deploy].each do |application, deploy|
   log_dir = "#{deploy[:deploy_to]}/shared/log"
 
   directory log_dir do
-    owner node[:user][:username]
-    group node[:user][:username]
+    owner group
+    group owner
     recursive true
   end
 
   template "##{log_dir}/logstash_production.log" do
       source   'logstash_production.log.erb'
       cookbook 'beetrack_rails'
-      group    'root'
-      owner    'deploy'
+      group    group
+      owner    owner
       mode     '0666'
   end
 
