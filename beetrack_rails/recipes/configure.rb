@@ -14,7 +14,18 @@ node[:deploy].each do |application, deploy|
       :force => node[:force_database_adapter_detection])
   deploy = node[:deploy][application]
 
-  template "#{deploy[:deploy_to]}/shared/log/logstash_production.log" do
+  log_dir = "#{deploy[:deploy_to]}/shared/log"
+
+  group_name = 'root'
+
+  directory log_dir do
+    owner "#{deploy[:user]}"
+    group group_name
+    mode  '0666'
+    recursive true
+  end
+
+  template "#{log_dir}/logstash_production.log" do
       source "logstash_production.log.erb"
       cookbook "beetrack_rails"
       group 'root'

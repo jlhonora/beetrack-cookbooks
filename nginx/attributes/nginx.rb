@@ -38,7 +38,7 @@ end
 default[:nginx][:log_format] = {}
 
 # increase if you accept large uploads
-default[:nginx][:client_max_body_size] = "4m"
+default[:nginx][:client_max_body_size] = "80m"
 
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_static] = "on"
@@ -60,7 +60,7 @@ default[:nginx][:gzip_types] = ["application/x-javascript",
 default[:nginx][:keepalive] = "on"
 default[:nginx][:keepalive_timeout] = 65
 
-default[:nginx][:worker_processes] = 10
+default[:nginx][:worker_processes] = 2
 default[:nginx][:worker_connections] = 1024
 default[:nginx][:server_names_hash_bucket_size] = 64
 
