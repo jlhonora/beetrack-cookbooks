@@ -1,1 +1,1 @@
-<%= YAML::dump(node['mongoid'].to_hash) %>
+<%= YAML::dump(JSON.parse(node['mongoid'].to_json)) %>
