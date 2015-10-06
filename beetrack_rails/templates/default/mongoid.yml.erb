@@ -1,10 +1,1 @@
-<%= node['rails_env'] %>:
-  sessions:
-    default:
-      database: <%= node['mongoid']['clients']['default']['database'] %>
-      hosts:
-        - <%= "#{node['mongoid']['clients']['default']['hosts'][0]}" %>
-      options:
-        max_pool_size     : <%= node['mongoid']['clients']['default']['options'].has_key?('max_pool_size') ? node['mongoid']['clients']['default']['options']['max_pool_size'] : 120 %>
-        min_pool_size     : <%= node['mongoid']['clients']['default']['options'].has_key?('min_pool_size') ? node['mongoid']['clients']['default']['options']['min_pool_size'] : 40 %>
-
+<%= node['mongoid'].to_yaml %>
