@@ -11,10 +11,10 @@ template "/etc/filebeat/filebeat.yml" do
   source 'filebeat.yml.erb'
   owner 'root'
   group 'root'
-  notifies :restart, 'service[filebeat]'
   variables(
     host: node['filebeat']['host'],
     path: node['filebeat']['path'],
     cert: node['filebeat']['cert']
   )
 end
+execute 'sudo service filebeat restart'
