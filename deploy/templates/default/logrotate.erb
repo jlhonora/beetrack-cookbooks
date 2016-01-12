@@ -1,5 +1,6 @@
 <% @log_dirs.each do |dir| %><%= dir %>/*.log <% end %> {
         daily
+        size <%= node[:logrotate][:size] %>
         missingok
         rotate <%= node[:logrotate][:rotate] %>
         compress
