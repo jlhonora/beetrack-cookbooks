@@ -3,8 +3,31 @@ upstream unicorn_<%= @application[:domains].first %> {
 }
 
 server {
+	listen 80;
+
+	root /usr/share/nginx/html;
+	index index.html index.htm;
+
+	server_name localhost;
+
+	location /alive {
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $host;
+		proxy_redirect off;
+    proxy_pass http://unicorn_<%= @application[:domains].first %>;
+	}
+	error_page  404 /index.html;
+}
+
+server {
   listen 80;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
+  server_tokens off;
+  add_header X-Content-Type-Options nosniff;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header Host $host;
+	proxy_redirect off;
 
   <% if @application[:log_format] %>
     <% @application[:log_format].each do |log_format_name| %>
@@ -30,6 +53,7 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
+    proxy_hide_header X-Frame-Options;
 
   <% if node[:nginx] && node[:nginx][:proxy_read_timeout] -%>
     proxy_read_timeout <%= node[:nginx][:proxy_read_timeout] %>;

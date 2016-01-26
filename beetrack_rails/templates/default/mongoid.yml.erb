@@ -1,12 +1,1 @@
-<%= node['rails_env'] %>:
-  sessions:
-    default:
-      database: <%= node['mongoid']['sessions']['default']['database'] %>
-      hosts:
-        - <%= "#{node['mongoid']['sessions']['default']['hosts'][0]}" %>
-      options:
-        read: primary
-        max_retries   : <%= node['mongoid']['sessions']['default']['options'].has_key?('max_retries') ? node['mongoid']['sessions']['default']['options']['max_retries'] : 5 %>
-        retry_interval: <%= node['mongoid']['sessions']['default']['options'].has_key?('retry_interval') ? node['mongoid']['sessions']['default']['options']['retry_interval'] : 0 %>
-        pool_size     : <%= node['mongoid']['sessions']['default']['options'].has_key?('pool_size') ? node['mongoid']['sessions']['default']['options']['pool_size'] : 64 %>
-
+<%= YAML::dump(JSON.parse(node['mongoid'].to_json)) %>

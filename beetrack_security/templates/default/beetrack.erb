@@ -1,11 +1,11 @@
-upstream unicorn_app.beetruck.cl {
+upstream unicorn_app.beetrack.com {
 server unix:<%= @deploy[:deploy_to] %>/shared/sockets/unicorn.sock fail_timeout=0;
 }
 
 
 server {
   listen 80;
-  server_name app.beetruck.cl *.beetrack.com *.beetrack.cl beetrack rails-app2;
+  server_name app.beetrack.cl app.beetrack.com app.beetruck.cl *.beetrack.com *.beetrack.cl beetrack rails-app2;
 
   access_log /var/log/nginx/app.beetrack.com.access.log;
 
@@ -18,7 +18,7 @@ server {
   }
 
   location @unicorn {
-    client_max_body_size 10m;
+    client_max_body_size 80m;
     client_body_buffer_size 128k;
     limit_req   zone=one  burst=5 nodelay;
 
@@ -27,13 +27,15 @@ server {
     proxy_pass_request_headers on;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    add_header X-Content-Type-Options nosniff;
     proxy_set_header Host $host;
     proxy_redirect off;
+    proxy_hide_header X-Frame-Options;
 
     # If you don't find the filename in the static files
     # Then request it from the unicorn server
     if (!-f $request_filename) {
-    proxy_pass http://unicorn_app.beetruck.cl;
+    proxy_pass http://unicorn_app.beetrack.com;
     break;
     }
     }

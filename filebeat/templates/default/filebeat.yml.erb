@@ -1,0 +1,21 @@
+filebeat:
+  prospectors:
+    -
+      paths:
+        - "<%= @path %>"
+      input_type: log
+  registry_file: /var/lib/filebeat/registry
+
+output:
+  logstash:
+    hosts: ["<%= @host %>"]
+    index: filebeat
+    tls:
+      certificate_authorities: ["<%= @cert %>"]
+logging:
+  to_files: true
+  files:
+    path: /var/log/mybeat
+    name: mybeat
+    rotateeverybytes: 10485760 # = 10MB
+  #level: debug

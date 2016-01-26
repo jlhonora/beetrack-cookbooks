@@ -1,5 +1,5 @@
 <% @log_dirs.each do |dir| %><%= dir %>/*.log <% end %> {
-        daily
+        weekly
         size <%= node[:logrotate][:size] %>
         missingok
         rotate <%= node[:logrotate][:rotate] %>
@@ -13,6 +13,14 @@
         copytruncate
         sharedscripts
         <% if node[:platform] == 'ubuntu' && node[:platform_version] == '14.04' -%>
-        su root root
+        su www-data adm
         <% end -%>
+        prerotate
+          if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+            run-parts /etc/logrotate.d/httpd-prerotate; \
+          fi \
+        endscript
+        postrotate
+          [ -s /run/nginx.pid ] && kill -USR1 `cat /run/nginx.pid`
+        endscript
 }
