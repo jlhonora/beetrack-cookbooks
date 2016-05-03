@@ -193,4 +193,14 @@ define :opsworks_deploy do
     mode 0644
     variables( :log_dirs => ["#{deploy[:deploy_to]}/shared/log" ] )
   end
+
+  template "etc/logrotate.d/nginx" do
+    backup false
+    source "nginx.erb"
+    cookbook 'deploy'
+    owner "root"
+    group "root"
+    mode 0644
+    variables( :log_dirs => ["/var/log/nginx" ] )
+  end
 end
