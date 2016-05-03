@@ -6,7 +6,7 @@ node[:deploy].each do |application, deploy|
   execute "rake sidekiq:stop" do
     cwd           release_path
     user "#{deploy[:user]}"
-    command "RAILS_ENV=#{rails_env} bundle exec sidekiqctl stop #{deploy[:deploy_to]}/shared/pids/sidekiq.pid 70"
+    command "RAILS_ENV=#{rails_env} kill -TERM `cat #{deploy[:deploy_to]}/shared/pids/sidekiq.pid`"
     returns [0,1]
   end
 
