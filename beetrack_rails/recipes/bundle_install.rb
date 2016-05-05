@@ -3,7 +3,7 @@ node[:deploy].each do |application, deploy|
   release_path = "#{deploy[:deploy_to]}/current/"
   execute "bundle install" do
     cwd  release_path
-    user app_config[:user]
+    user deploy[:user]
     command "cd #{release_path} && bundle install"
     returns [0,1]
   end
