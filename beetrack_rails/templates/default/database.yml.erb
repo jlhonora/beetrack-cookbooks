@@ -5,8 +5,9 @@
   username : <%= node['database']['username'] %>
   password : <%= node['database']['password'] %>
   encoding : <%= node['database'].has_key?('encoding') ? node['database']['encoding'] : 'utf8' %>
+  collation : <%= node['database'].has_key?('collation') ? node['database']['collation'] : 'utf8_unicode_ci' %>
   reconnect: true
-  pool: 32
+  pool: 48
   connect_timeout: 10
   read_timeout: 15
   write_timeout: 15
