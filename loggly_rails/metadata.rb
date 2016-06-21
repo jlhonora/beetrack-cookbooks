@@ -6,6 +6,4 @@ description       'Installs/Configures Loggly for Rails'
 long_description  'Installs/Configures Loggly for Rails as Loggly documentation says'
 version           '1.0.1'
 
-chef_version      '>= 11.0'
-
 depends           'rsyslog', '~> 1.3'
