@@ -34,10 +34,12 @@ templates.each do |src,dst|
       account: node['loggly']['account'],
       token: node['loggly']['token']
     })
+
+    notifies :restart, 'service[rsyslog]'
+
   end
 
 end
 
-notifies :restart, 'service[rsyslog]', :inmediate
 
 
