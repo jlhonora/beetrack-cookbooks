@@ -1,26 +1,62 @@
-upstream unicorn_app.beetrack.com {
-server unix:<%= @deploy[:deploy_to] %>/shared/sockets/unicorn.sock fail_timeout=0;
+upstream <%=@unicorn_stream_name %> {
+  server unix:<%= @unicorn_socket %> fail_timeout=0;
 }
 
+<% if @allow_localhost %>
+server {
+  server_name localhost;
+  location /alive {
+    limit_req   zone=one  burst=5 nodelay;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $host;
+    proxy_redirect off;
+    proxy_pass http://<%= @unicorn_stream_name %>;
+  }
+}
+<% end %>
 
 server {
-  listen 80;
-  server_name app.beetrack.cl app.beetrack.com app.beetruck.cl *.beetrack.com *.beetrack.cl beetrack rails-app2;
+  <% if @use_ssl %>
+  listen 443 ssl;
+  server_name <%= @server_names %>;
 
-  access_log /var/log/nginx/app.beetrack.com.access.log;
+  ssl_certificate <%= @ssl[:cert] %>;
+  ssl_certificate_key <%= @ssl[:cert_key] %>;
+
+  ssl_session_timeout 5m;
+
+  ssl_protocols <%= @ssl[:protocols] %>;
+  ssl_ciphers "<%= @ssl[:ciphers] %>";
+  ssl_prefer_server_ciphers on;
+  ssl_session_cache shared:SSL:10m;
+
+  <% if @ssl[:dhparams] %>
+    ssl_dhparam <%= @ssl[:dhparams] %>;
+  <% end %>
+
+  <% else %>
+  listen 80;
+  server_name <%= @server_names %>;
+  <% end %>
+
+
+  access_log /var/log/nginx/<%=@app_name%>.access.log;
 
   keepalive_timeout 5;
 
-  root <%= @deploy[:deploy_to] %>/current/public/;
+  root <%= @public_path %>;
 
   location / {
-    try_files $uri/index.html $uri/index.htm @unicorn;
-  }
-
-  location @unicorn {
     client_max_body_size 80m;
     client_body_buffer_size 128k;
     limit_req   zone=one  burst=5 nodelay;
+
+<%#
+    # I found this configs on server 5 - TODO: decide about including this
+    # proxy_buffer_size 4k;
+    # proxy_buffers 8 32k;
+%>
 
     proxy_read_timeout 60;
     proxy_send_timeout 60;
@@ -35,20 +71,20 @@ server {
     # If you don't find the filename in the static files
     # Then request it from the unicorn server
     if (!-f $request_filename) {
-    proxy_pass http://unicorn_app.beetrack.com;
-    break;
+      proxy_pass http://<%= @unicorn_stream_name %>;
+      break;
     }
-    }
+  }
 
-    location /nginx_status {
+  location /nginx_status {
     stub_status on;
     access_log off;
     allow 127.0.0.1;
     deny all;
-    }
+  }
 
-    error_page 500 502 503 504 /500.html;
-    location = /500.html {
-    root <%= @deploy[:deploy_to] %>/current/public/;
-    }
-    }
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root <%= @public_path %>;
+  }
+}
