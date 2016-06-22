@@ -1,0 +1,20 @@
+{
+  "create_local_templates_on_fake_root": "/tmp/deploy",
+  "deploy": {
+    "beetrack": {
+      "deploy_to": "/home/ubuntu/apps/beetrack",
+      "user": "ubuntu",
+      "beetrack_nginx_config": {
+        "public_path": "/home/ubuntu/apps/beetrack/public",
+        "unicorn_socket": "/home/ubuntu/apps/beetrack/tmp/sockets/unicorn.sock",
+        "allow_localhost": 1,
+        "use_ssl": true
+      }
+    }
+  },
+  "ruby": {
+    "patch_version": "5"
+  },
+  "rails_env": "production",
+  "swap_size": "8192"
+}
