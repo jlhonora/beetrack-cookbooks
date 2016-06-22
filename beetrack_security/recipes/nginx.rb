@@ -1,7 +1,7 @@
 node[:deploy].each do |application, deploy|
 
   # better avoid collisions
-  nginx_config = deploy[:beetrack_nginx_config]
+  nginx_config = node[:beetrack_nginx_config]
 
   use_ssl = nginx_config[:use_ssl] || false
   deploy_path = nginx_config[:deploy_path] || deploy[:deploy_to] # default param
@@ -42,6 +42,8 @@ node[:deploy].each do |application, deploy|
       mode 0644
     end
     variables common_vars.merge({'use_ssl' => false, 'skip_upstream' => false})
+
+    notifies :restart, 'service[nginx]'
   end
 
   if use_ssl
