@@ -42,6 +42,8 @@ node[:deploy].each do |application, deploy|
       mode 0644
     end
     variables common_vars.merge({'use_ssl' => false, 'skip_upstream' => false})
+
+    notifies :restart, 'service[nginx]'
   end
 
   if use_ssl
