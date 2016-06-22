@@ -45,11 +45,14 @@ server {
     client_max_body_size <%= @application[:nginx][:client_max_body_size] %>;
   <% end %>
 
+<%#
   location / {
     try_files $uri/index.html $uri/index.htm @unicorn;
   }
 
   location @unicorn {
+%>
+	location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
@@ -105,10 +108,6 @@ server {
   <% end %>
 
   location / {
-    try_files $uri/index.html $uri/index.htm @unicorn;
-  }
-
-  location @unicorn {
     proxy_set_header X-Forwarded-Proto https;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
